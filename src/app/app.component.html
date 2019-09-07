@@ -1,17 +1,28 @@
-<div cdkDropList class="example-list-cotainer parent" cdkDropListOrientation="horizontal" [cdkDropListData]="data"  (cdkDropListDropped)="dropOne($event)">
-  <div *ngFor="let d of data" class="column example-box" cdkDrag>
+<div cdkDropList class="example-list-cotainer parent" cdkDropListOrientation="horizontal" [cdkDropListData]="data"  (cdkDropListDropped)="dropStatus($event)">
+  <div *ngFor="let d of data;let index=index;" class="column example-box" cdkDrag>
       {{d.title}}
       <div 
-        class="example-list example-boundary"
+        class="example-list"
         cdkDropList 
         id="{{d.title}}"  
         [cdkDropListConnectedTo]="connectedTo"
         [cdkDropListData]="d.data"
-        (cdkDropListDropped)="drop($event)"
+        (cdkDropListDropped)="dropTask($event)"
       >
-        <div class="example-box" cdkDragBoundary=".example-boundary"  *ngFor="let task of d.data" cdkDrag>
+        <div>
+          <form (submit)="save(index,$event)">
+            <input type="text" placeholder="Task name" [(ngModel)]="taskName[index]" name="{{index}}"/>
+          </form>
+        </div>
+        <div class="example-box"  *ngFor="let task of d.data" cdkDrag>
           {{task}}
         </div>
+
       </div>  
+  </div>
+  <div >
+    <form (submit)="saveStatus($event)">
+      <input type="text" placeholder="status name"  [(ngModel)]="status" name="status"/>
+    </form>
   </div>
 </div>

@@ -7,43 +7,25 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular-material-drag-drop';
+
+  taskName={
+
+  }
+  status:string;
+
 
   data = [
 	  {
 	  	title:"ToDO",
-	  	data:[
-	  		'One',
-	  		'two',
-	  		'three',
-	  		'four'
-	  	]
+	  	data:[]
 	  },
 	  {
 	  	title:"QA",
-	  	data:[
-	  		'One 1',
-	  		'two 1',
-	  		'three 1',
-	  		'four 1',
-	  		'One 1',
-	  		'two 1',
-	  		'three 1',
-	  		'four 1',
-	  		'One 1',
-	  		'two 1',
-	  		'three 1',
-	  		'four 1'
-	  	]
+	  	data:[]
 	  },
 	  {
 	  	title:"DONE",
-	  	data:[
-	  		'One 2',
-	  		'two 2',
-	  		'three 2',
-	  		'four 2'
-	  	]
+	  	data:[]
 	  }
   ]
   connectedTo = [];
@@ -54,25 +36,10 @@ export class AppComponent {
   	}
   }
 
-  array_move(arr, old_index, new_index) {
-    if (new_index >= arr.length) {
-        var k = new_index - arr.length + 1;
-        while (k--) {
-            arr.push(undefined);
-        }
-    }
-    arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
-    console.log(arr);
-    return arr; // for testing
-};
-
-
-  drop(event: CdkDragDrop<string[]>) {
-  	console.log(event);
+  dropTask(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-    	console.log("DIF")
     	transferArrayItem(event.previousContainer.data,
         event.container.data,
         event.previousIndex,
@@ -82,19 +49,28 @@ export class AppComponent {
     console.log(this.data);
   }
 
-  dropOne(event: CdkDragDrop<string[]>){
-  	// console.log(event);
+  dropStatus(event: CdkDragDrop<string[]>){
     if (event.previousContainer === event.container) {
     	console.log(event.container.data);
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-    	console.log("DIF")
     	transferArrayItem(event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex);
     }
-
-    console.log(this.data);
+  }
+  save(index,e){
+    e.preventDefault();
+    this.data[index].data.push(this.taskName[index]);
+    this.taskName[index] = '';
+  }
+  saveStatus(e){
+    e.preventDefault();
+    this.data.push({
+      title:this.status,
+      data:[]
+    });
+    this.status = '';
   }
 }
