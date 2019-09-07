@@ -1,0 +1,17 @@
+<div cdkDropList class="example-list-cotainer parent" cdkDropListOrientation="horizontal" [cdkDropListData]="data"  (cdkDropListDropped)="dropOne($event)">
+  <div *ngFor="let d of data" class="column example-box" cdkDrag>
+      {{d.title}}
+      <div 
+        class="example-list example-boundary"
+        cdkDropList 
+        id="{{d.title}}"  
+        [cdkDropListConnectedTo]="connectedTo"
+        [cdkDropListData]="d.data"
+        (cdkDropListDropped)="drop($event)"
+      >
+        <div class="example-box" cdkDragBoundary=".example-boundary"  *ngFor="let task of d.data" cdkDrag>
+          {{task}}
+        </div>
+      </div>  
+  </div>
+</div>
